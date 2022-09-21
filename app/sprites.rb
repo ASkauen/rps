@@ -68,8 +68,11 @@ class Sprite
   def collide_with(sprite)
     set_direction(@direction.reflect(relative_normal(sprite)))
     if convert?(sprite.class)
-      $new_sprites << sprite.class.new(x: @x, y: @y, w: @w, h: @h, direction: @direction)
-      @delete = true
+      index = $sprites.index(self)
+      return if index.nil?
+
+      $sprites[index] = sprite.class.new(x: @x, y: @y, w: @w, h: @h, direction: @direction)
+      $sounds << "sounds/#{sprite.class.name.downcase}.wav"
     end
   end
 
